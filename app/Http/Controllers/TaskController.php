@@ -26,9 +26,10 @@ class TaskController extends Controller
       'title' => 'required|string|max:255',
       'description' => 'required|string',
       'user_id' => 'required|exists:users,id',
-      'status' => 'required|in:Pendiente,En Proceso,Terminada,Personalizado', // Nueva validación para el estado
+      'status' => 'required|string|in:Pendiente,En Proceso,Terminada,Personalizado', // Corregido
     ]);
 
+    // Crea un array con los datos de la tarea
     $taskData = [
       'title' => $request->title,
       'description' => $request->description,
@@ -36,15 +37,18 @@ class TaskController extends Controller
       'status' => $request->status, // Usa el estado proporcionado por el usuario
     ];
 
-    // Si el estado es personalizado, utiliza el valor del campo personalizado
+    // Si el estado es 'Personalizado', utiliza el valor del campo personalizado
     if ($request->status === 'Personalizado') {
       $taskData['status'] = $request->custom_status;
     }
 
+    // Crea la tarea
     Task::create($taskData);
 
+    // Redirecciona al usuario a la página de índice de tareas con un mensaje de éxito
     return redirect()->route('tasks.index')->with('success', 'La tarea ha sido creada correctamente.');
   }
+
 
   public function show(Task $task)
   {
