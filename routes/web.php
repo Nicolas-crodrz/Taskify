@@ -32,6 +32,10 @@ Route::middleware(['auth'])->group(function () {
 
   Route::resource('tasks', TaskController::class);
 });
+// Route::put('/tasks/{task}', 'TaskController@update')->name('tasks.update');
+Route::get('/tasks/{task}/edit', [TaskController::class, 'edit'])->name('tasks.edit');
+
+
 
 Route::get('/tasks', [TaskController::class, 'index'])->name('tasks.index');
 Route::post('/tasks', [TaskController::class, 'store'])->name('tasks.store');

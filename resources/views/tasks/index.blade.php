@@ -11,11 +11,32 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <ul class="list-group">
                         @foreach ($tasks as $task)
-                            <li class="list-group-item">
-                                {{ $task->title }} - {{ $task->status }}
-                                <a href="{{ route('tasks.show', $task->id) }}" class="btn btn-primary">Ver detalles</a>
+                            <li class="list-group-item flex justify-between items-center mb-2">
+                                <div>
+                                    {{ $task->title }} - {{ $task->status }}
+                                    @if ($task->status == 'Terminada')
+                                        @if ($task->completed_at)
+                                            <span class="text-gray-500 dark:text-gray-400 text-sm">
+                                                ({{ \Carbon\Carbon::parse($task->completed_at)->format('d/m/Y') }})
+                                            </span>
+                                        @else
+                                            <span class="text-gray-500 dark:text-gray-400 text-sm">(No disponible)</span>
+                                        @endif
+                                    @endif
+                                </div>
+                                <div class="flex space-x-2">
+                                    <a href="{{ route('tasks.show', $task->id) }}"
+                                        class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+                                        Ver detalles
+                                    </a>
+                                    <a href="{{ route('tasks.edit', $task->id) }}"
+                                        class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded">
+                                        Editar tarea
+                                    </a>
+                                </div>
                             </li>
                         @endforeach
+
                     </ul>
                 </div>
             </div>

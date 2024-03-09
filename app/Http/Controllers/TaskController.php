@@ -49,19 +49,30 @@ class TaskController extends Controller
     $request->validate([
       'status' => 'required|in:Pendiente,En Proceso,Terminada',
     ]);
-
-    $task->update([
+    $data = [
       'status' => $request->status,
-      'completed_at' => ($request->status == 'Terminada') ? now() : null,
-    ]);
-
+    ];
+    // Si la tarea se marca como "Terminada", registra la fecha de finalización
+    if ($request->status == 'Terminada') {
+      $data['completed_at'] = now();
+    } else {
+      $data['completed_at'] = null;
+    }
+    $task->update($data);
     return redirect()->route('tasks.index')->with('success', 'El estado de la tarea ha sido actualizado correctamente.');
   }
+
 
   public function destroy(Task $task)
   {
     $task->delete();
 
     return redirect()->route('tasks.index')->with('success', 'La tarea ha sido eliminada correctamente.');
+  }
+
+  public function edit(Task $task)
+  {
+    $users = User::all(); // Esto es opcional, si necesitas mostrar una lista de usuarios en el formulario de edición
+    return view('tasks.edit', compact('task', 'users'));
   }
 }

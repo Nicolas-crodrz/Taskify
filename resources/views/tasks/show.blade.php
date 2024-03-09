@@ -23,8 +23,14 @@
                     </div>
                     @if ($task->status == 'Terminada')
                         <div class="mb-4">
-                            <strong>Fecha de Finalización:</strong> {{ $task->completed_at->format('d/m/Y H:i:s') }}
+                            <strong>Fecha de Finalización:</strong>
+                            @if ($task->completed_at)
+                                {{ \Carbon\Carbon::parse($task->completed_at)->format('d/m/Y H:i:s') }}
+                            @else
+                                No disponible
+                            @endif
                         </div>
+
                     @endif
                     <div class="mb-4">
                         <strong>Asignada a:</strong> {{ $task->user->name }}
