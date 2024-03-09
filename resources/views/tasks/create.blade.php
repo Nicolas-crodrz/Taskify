@@ -26,6 +26,25 @@
                                 required></textarea>
                         </div>
                         <div class="mb-4">
+                            <label for="status"
+                                class="block text-sm font-medium text-gray-700 dark:text-gray-300">Estado:</label>
+                            <select name="status" id="status"
+                                class="mt-1 p-2 block w-full border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+                                required>
+                                <option value="Pendiente">Pendiente</option>
+                                <option value="En Proceso">En Proceso</option>
+                                <option value="Terminado">Terminado</option>
+                                <option value="Custom">Personalizado</option>
+                            </select>
+                        </div>
+                        <div class="mb-4 hidden" id="custom_status_div">
+                            <label for="custom_status"
+                                class="block text-sm font-medium text-gray-700 dark:text-gray-300">Estado
+                                Personalizado:</label>
+                            <input type="text" name="custom_status" id="custom_status"
+                                class="mt-1 p-2 block w-full border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                        </div>
+                        <div class="mb-4">
                             <label for="user_id"
                                 class="block text-sm font-medium text-gray-700 dark:text-gray-300">Asignar a:</label>
                             <select name="user_id" id="user_id"
@@ -45,4 +64,5 @@
             </div>
         </div>
     </div>
+
 </x-app-layout>
