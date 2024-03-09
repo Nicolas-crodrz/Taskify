@@ -16,7 +16,7 @@ return new class extends Migration
       $table->string('title');
       $table->text('description');
       $table->unsignedBigInteger('user_id')->nullable(); // Modificar para permitir valores nulos
-      $table->enum('status', ['Pendiente', 'En Proceso', 'Terminada'])->default('Pendiente');
+      $table->string('status')->default('Pendiente');
       $table->timestamp('completed_at')->nullable();
       $table->timestamps();
 

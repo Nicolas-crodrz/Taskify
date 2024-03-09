@@ -26,14 +26,22 @@ class TaskController extends Controller
       'title' => 'required|string|max:255',
       'description' => 'required|string',
       'user_id' => 'required|exists:users,id',
+      'status' => 'required|in:Pendiente,En Proceso,Terminada,Personalizado', // Nueva validación para el estado
     ]);
 
-    Task::create([
+    $taskData = [
       'title' => $request->title,
       'description' => $request->description,
       'user_id' => $request->user_id,
-      'status' => 'Pendiente', // O cualquier otro valor predeterminado
-    ]);
+      'status' => $request->status, // Usa el estado proporcionado por el usuario
+    ];
+
+    // Si el estado es personalizado, utiliza el valor del campo personalizado
+    if ($request->status === 'Personalizado') {
+      $taskData['status'] = $request->custom_status;
+    }
+
+    Task::create($taskData);
 
     return redirect()->route('tasks.index')->with('success', 'La tarea ha sido creada correctamente.');
   }
@@ -47,19 +55,38 @@ class TaskController extends Controller
   public function update(Request $request, Task $task)
   {
     $request->validate([
-      'status' => 'required|in:Pendiente,En Proceso,Terminada',
+      'title' => 'required|string|max:255',
+      'description' => 'required|string',
+      'status' => 'required|string|in:Pendiente,En Proceso,Terminado,Custom', // Añadido Custom
     ]);
+
     $data = [
+      'title' => $request->title,
+      'description' => $request->description,
       'status' => $request->status,
     ];
-    // Si la tarea se marca como "Terminada", registra la fecha de finalización
-    if ($request->status == 'Terminada') {
+
+    // Si el estado es 'Terminado', se actualiza la fecha de finalización
+    if ($request->status == 'Terminado') {
       $data['completed_at'] = now();
     } else {
       $data['completed_at'] = null;
     }
+
+    // Si el estado es 'Custom', se guarda el valor personalizado del estado
+    if ($request->status == 'Custom') {
+      // Verifica si se envió un valor personalizado y asegúrate de guardarlo correctamente
+      if ($request->has('custom_status')) {
+        $data['status'] = $request->custom_status;
+      }
+    } else {
+      // Si el estado no es 'Custom', asegúrate de limpiar el campo de estado personalizado
+      $data['custom_status'] = null;
+    }
+
     $task->update($data);
-    return redirect()->route('tasks.index')->with('success', 'El estado de la tarea ha sido actualizado correctamente.');
+
+    return redirect()->route('tasks.index')->with('success', 'La tarea ha sido actualizada correctamente.');
   }
 
 
