@@ -16,7 +16,11 @@
                         <strong>Descripción:</strong> {{ $task->description }}
                     </div>
                     <div class="mb-4">
-                        <strong>Estado:</strong> {{ $task->status }}
+                        @if ($task->status == 'Custom')
+                            <strong>Estado Personalizado:</strong> {{ $task->status }}
+                        @else
+                            <strong>Estado:</strong> {{ $task->status }}
+                        @endif
                     </div>
                     <div class="mb-4">
                         <strong>Fecha de Creación:</strong> {{ $task->created_at->format('d/m/Y H:i:s') }}
@@ -30,7 +34,6 @@
                                 No disponible
                             @endif
                         </div>
-
                     @endif
                     <div class="mb-4">
                         <strong>Asignada a:</strong> {{ $task->user->name }}

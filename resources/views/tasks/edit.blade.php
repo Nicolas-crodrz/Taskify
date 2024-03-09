@@ -33,21 +33,46 @@
                             <select name="status" id="status"
                                 class="mt-1 p-2 block w-full border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
                                 required>
-                                <option value="Pendiente" {{ $task->status == 'Pendiente' ? 'selected' : '' }}>Pendiente
-                                </option>
-                                <option value="En Proceso" {{ $task->status == 'En Proceso' ? 'selected' : '' }}>En
+                                <option value="Pendiente" {{ $task->status === 'Pendiente' ? 'selected' : '' }}>
+                                    Pendiente</option>
+                                <option value="En Proceso" {{ $task->status === 'En Proceso' ? 'selected' : '' }}>En
                                     Proceso</option>
-                                <option value="Terminada" {{ $task->status == 'Terminada' ? 'selected' : '' }}>Terminada
-                                </option>
+                                <option value="Terminado" {{ $task->status === 'Terminado' ? 'selected' : '' }}>
+                                    Terminado</option>
+                                <option value="Custom"
+                                    {{ $task->status !== 'Pendiente' && $task->status !== 'En Proceso' && $task->status !== 'Terminado' ? 'selected' : '' }}>
+                                    Custom</option>
                             </select>
-                        </div>
 
-                        <button type="submit"
-                            class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:bg-blue-700">Actualizar
-                            Tarea</button>
-                    </form>
+                            <label for="custom_status"
+                                class="block text-sm font-medium text-gray-700 dark:text-gray-300">Estado
+                                Personalizado:</label>
+                            <input type="text" name="custom_status" id="custom_status"
+                                class="mt-1 p-2 block w-full border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                        </div>
                 </div>
+
+                <button type="submit"
+                    class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:bg-blue-700">Actualizar
+                    Tarea</button>
+                </form>
             </div>
         </div>
     </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const statusSelect = document.getElementById('status');
+            const customStatusDiv = document.getElementById('custom_status');
+
+            statusSelect.addEventListener('change', function() {
+                if (statusSelect.value === 'Custom') {
+                    customStatusDiv.classList.remove('hidden');
+                } else {
+                    customStatusDiv.classList.add('hidden');
+                }
+            });
+        });
+    </script>
+
 </x-app-layout>
