@@ -17,21 +17,21 @@
                             <label for="title"
                                 class="block text-sm font-medium text-gray-700 dark:text-gray-300">Título:</label>
                             <input type="text" name="title" id="title" value="{{ $task->title }}"
-                                class="mt-1 p-2 block w-full border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+                                class="mt-1 p-2 block w-full border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-black"
                                 required>
                         </div>
                         <div class="mb-4">
                             <label for="description"
                                 class="block text-sm font-medium text-gray-700 dark:text-gray-300">Descripción:</label>
                             <textarea name="description" id="description" rows="4"
-                                class="mt-1 p-2 block w-full border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+                                class="mt-1 p-2 block w-full border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-black"
                                 required>{{ $task->description }}</textarea>
                         </div>
                         <div class="mb-4">
                             <label for="status"
                                 class="block text-sm font-medium text-gray-700 dark:text-gray-300">Estado:</label>
                             <select name="status" id="status"
-                                class="mt-1 p-2 block w-full border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+                                class="mt-1 p-2 block w-full border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-black"
                                 required>
                                 <option value="Pendiente" {{ $task->status === 'Pendiente' ? 'selected' : '' }}>
                                     Pendiente</option>
@@ -48,7 +48,7 @@
                                 class="block text-sm font-medium text-gray-700 dark:text-gray-300">Estado
                                 Personalizado:</label>
                             <input type="text" name="custom_status" id="custom_status"
-                                class="mt-1 p-2 block w-full border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                                class="mt-1 p-2 block w-full border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-black">
                         </div>
                 </div>
 
