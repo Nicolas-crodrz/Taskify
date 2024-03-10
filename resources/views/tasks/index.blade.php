@@ -14,15 +14,20 @@
                             <li class="list-group-item flex justify-between items-center mb-2">
                                 <div>
                                     {{ $task->title }} - {{ $task->status }}
-                                    @if ($task->status == 'Terminada')
+                                    @if ($task->status == 'Terminado')
                                         @if ($task->completed_at)
                                             <span class="text-gray-500 dark:text-gray-400 text-sm">
-                                                ({{ \Carbon\Carbon::parse($task->completed_at)->format('d/m/Y') }})
+                                                Fecha de finalización:
+                                                {{ \Carbon\Carbon::parse($task->completed_at)->format('d/m/Y H:i:s') }}
                                             </span>
                                         @else
-                                            <span class="text-gray-500 dark:text-gray-400 text-sm">(No disponible)</span>
+                                            <span class="text-gray-500 dark:text-gray-400 text-sm">(Fecha de
+                                                finalización
+                                                no disponible)</span>
                                         @endif
                                     @endif
+
+
                                 </div>
                                 <div class="flex space-x-2">
                                     <a href="{{ route('tasks.show', $task->id) }}"
