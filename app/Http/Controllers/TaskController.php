@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Task;
 use App\Models\User;
+use App\Models\TaskHistory;
 
 class TaskController extends Controller
 {
@@ -44,7 +45,15 @@ class TaskController extends Controller
     }
 
     // Crear la tarea
-    Task::create($taskData);
+    // Task::create($taskData);
+    $task = Task::create($taskData);
+
+    // Registrar la acción en el historial
+    TaskHistory::create([
+      'task_id' => $task->id,
+      'action' => 'Creación de tarea',
+      'user_id' => auth()->id(),
+    ]);
 
     // Redireccionar al usuario a la página de índice de tareas con un mensaje de éxito
     return redirect()->route('tasks.index')->with('success', 'La tarea ha sido creada correctamente.');
@@ -53,7 +62,9 @@ class TaskController extends Controller
   public function show(Task $task)
   {
     $task->load('user'); // Cargar la relación user
-    return view('tasks.show', compact('task'));
+    $history = TaskHistory::where('task_id', $task->id)->orderBy('created_at', 'desc')->get();
+    // view('tasks.show', compact('task'));
+    return view('tasks.show', compact('task', 'history'));
   }
 
   public function update(Request $request, Task $task)
@@ -87,7 +98,28 @@ class TaskController extends Controller
       $data['custom_status'] = null;
     }
 
+    // $task->update($data);
+    // Actualizar la tarea
     $task->update($data);
+
+    // Determinar la acción específica para el historial
+    $action = 'Actualización de tarea: ' . $request->status;
+    if ($request->status === 'Custom') {
+      $action = 'Actualización de tarea: ' . $request->custom_status;
+    } elseif ($request->status === 'Terminado') {
+      $action = 'Finalización de tarea';
+    } elseif ($request->status === 'Pendiente') {
+      $action = 'Reapertura de tarea';
+    } else {
+      $action = 'Inicio de tarea';
+    }
+
+    // Registrar la acción en el historial
+    TaskHistory::create([
+      'task_id' => $task->id,
+      'action' => $action,
+      'user_id' => auth()->id(),
+    ]);
 
     return redirect()->route('tasks.index')->with('success', 'La tarea ha sido actualizada correctamente.');
   }
@@ -103,5 +135,12 @@ class TaskController extends Controller
   {
     $users = User::all(); // Esto es opcional, si necesitas mostrar una lista de usuarios en el formulario de edición
     return view('tasks.edit', compact('task', 'users'));
+  }
+
+  public function showHistory(Task $task)
+  {
+    $task->load('user'); // Cargar la relación user
+    $history = TaskHistory::where('task_id', $task->id)->orderBy('created_at', 'desc')->get();
+    return view('tasks.history', compact('task', 'history'));
   }
 }

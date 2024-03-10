@@ -4,7 +4,6 @@
             {{ __('Lista de Tareas') }}
         </h2>
     </x-slot>
-
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
@@ -35,8 +34,12 @@
                                         Ver detalles
                                     </a>
                                     <a href="{{ route('tasks.edit', $task->id) }}"
-                                        class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded">
+                                        class="bg-green-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded">
                                         Editar tarea
+                                    </a>
+                                    <a href="{{ route('tasks.history', $task->id) }}"
+                                        class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded">
+                                        Ver historial
                                     </a>
                                 </div>
                             </li>
