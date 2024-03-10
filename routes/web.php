@@ -35,6 +35,7 @@ Route::middleware(['auth'])->group(function () {
 // Route::put('/tasks/{task}', 'TaskController@update')->name('tasks.update');
 Route::get('/tasks/{task}/edit', [TaskController::class, 'edit'])->name('tasks.edit');
 
+Route::get('tasks/{task}/history', [TaskController::class, 'showHistory'])->name('tasks.history');
 
 
 Route::get('/tasks', [TaskController::class, 'index'])->name('tasks.index');
