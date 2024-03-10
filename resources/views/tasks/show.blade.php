@@ -25,7 +25,7 @@
                     <div class="mb-4">
                         <strong>Fecha de Creación:</strong> {{ $task->created_at->format('d/m/Y H:i:s') }}
                     </div>
-                    @if ($task->status == 'Terminada')
+                    @if ($task->status == 'Terminado')
                         <div class="mb-4">
                             <strong>Fecha de Finalización:</strong>
                             @if ($task->completed_at)

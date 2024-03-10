@@ -26,29 +26,29 @@ class TaskController extends Controller
       'title' => 'required|string|max:255',
       'description' => 'required|string',
       'user_id' => 'required|exists:users,id',
-      'status' => 'required|string|in:Pendiente,En Proceso,Terminada,Personalizado', // Corregido
+      'status' => 'required|string|in:Pendiente,En Proceso,Terminada,Personalizado',
+      'custom_status' => 'nullable|string|max:255', // Validar el estado personalizado si se proporciona
     ]);
 
-    // Crea un array con los datos de la tarea
+    // Crear un array con los datos de la tarea
     $taskData = [
       'title' => $request->title,
       'description' => $request->description,
       'user_id' => $request->user_id,
-      'status' => $request->status, // Usa el estado proporcionado por el usuario
+      'status' => $request->status, // Usar el estado proporcionado por el usuario
     ];
 
-    // Si el estado es 'Personalizado', utiliza el valor del campo personalizado
+    // Si el estado es 'Personalizado', usar el valor del campo personalizado
     if ($request->status === 'Personalizado') {
       $taskData['status'] = $request->custom_status;
     }
 
-    // Crea la tarea
+    // Crear la tarea
     Task::create($taskData);
 
-    // Redirecciona al usuario a la página de índice de tareas con un mensaje de éxito
+    // Redireccionar al usuario a la página de índice de tareas con un mensaje de éxito
     return redirect()->route('tasks.index')->with('success', 'La tarea ha sido creada correctamente.');
   }
-
 
   public function show(Task $task)
   {
@@ -62,6 +62,8 @@ class TaskController extends Controller
       'title' => 'required|string|max:255',
       'description' => 'required|string',
       'status' => 'required|string|in:Pendiente,En Proceso,Terminado,Custom', // Añadido Custom
+      'completed_at' => 'nullable|date', // Validar la fecha de finalización si se proporciona
+      'custom_status' => 'nullable|string|max:255', // Validar el estado personalizado si se proporciona
     ]);
 
     $data = [
@@ -70,21 +72,18 @@ class TaskController extends Controller
       'status' => $request->status,
     ];
 
-    // Si el estado es 'Terminado', se actualiza la fecha de finalización
+    // Si el estado es 'Terminado', actualizar la fecha de finalización
     if ($request->status == 'Terminado') {
-      $data['completed_at'] = now();
+      $data['completed_at'] = $request->completed_at ?: now(); // Usa la fecha actual si no se proporciona
     } else {
       $data['completed_at'] = null;
     }
 
-    // Si el estado es 'Custom', se guarda el valor personalizado del estado
-    if ($request->status == 'Custom') {
-      // Verifica si se envió un valor personalizado y asegúrate de guardarlo correctamente
-      if ($request->has('custom_status')) {
-        $data['status'] = $request->custom_status;
-      }
+    // Si el estado es 'Personalizado', usar el valor del campo personalizado
+    if ($request->status === 'Custom') {
+      $data['status'] = $request->custom_status;
     } else {
-      // Si el estado no es 'Custom', asegúrate de limpiar el campo de estado personalizado
+      // Si el estado no es 'Personalizado', asegurarse de limpiar el campo de estado personalizado
       $data['custom_status'] = null;
     }
 
@@ -92,7 +91,6 @@ class TaskController extends Controller
 
     return redirect()->route('tasks.index')->with('success', 'La tarea ha sido actualizada correctamente.');
   }
-
 
   public function destroy(Task $task)
   {
