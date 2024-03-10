@@ -45,8 +45,7 @@
                             </select>
 
                             <label for="custom_status"
-                                class="block text-sm font-medium text-gray-700 dark:text-gray-300">Estado
-                                Personalizado:</label>
+                                class="block text-sm font-medium text-gray-700 dark:text-gray-300"id="custom_status_label"></label>
                             <input type="text" name="custom_status" id="custom_status"
                                 class="mt-1 p-2 block w-full border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-black">
                         </div>
@@ -63,16 +62,20 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const statusSelect = document.getElementById('status');
-            const customStatusDiv = document.getElementById('custom_status');
+            const customStatusLabel = document.querySelector('[for="custom_status"]');
+            const customStatusInput = document.getElementById('custom_status');
 
             statusSelect.addEventListener('change', function() {
                 if (statusSelect.value === 'Custom') {
-                    customStatusDiv.classList.remove('hidden');
+                    customStatusLabel.textContent = 'Estado Personalizado:';
+                    customStatusInput.classList.remove('hidden');
                 } else {
-                    customStatusDiv.classList.add('hidden');
+                    customStatusLabel.textContent = ''; // Vacía el texto del label
+                    customStatusInput.classList.add('hidden');
                 }
             });
         });
     </script>
+
 
 </x-app-layout>
