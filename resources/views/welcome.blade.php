@@ -64,6 +64,13 @@
         .m-b-md {
             margin-bottom: 30px;
         }
+
+        /* Estilos para la imagen */
+        .logo-img {
+            width: 400px;
+            /* ajusta el tamaño de la imagen según sea necesario */
+            height: auto;
+        }
     </style>
 </head>
 
